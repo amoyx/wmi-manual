@@ -13,6 +13,8 @@ wmi-manual 是一份用于互联网微服务中间件安装部署的手册，涉
       <td>jdk 8</td>
       <td>jdk 17</td>
       <td>jdk 18</td>
+      <td></td>
+      <td></td>
     </tr>
   </thead>
   <tbody>
@@ -21,6 +23,8 @@ wmi-manual 是一份用于互联网微服务中间件安装部署的手册，涉
       <td>apache-maven-3.3.9</td>
       <td>apache-maven-3.6.3</td>
       <td>apache-maven-3.9.8</td>
+      <td></td>
+      <td></td>
     </tr>
   </tbody>
   <tbody>
@@ -29,6 +33,8 @@ wmi-manual 是一份用于互联网微服务中间件安装部署的手册，涉
       <td>5.6.36+</td>
       <td>5.7.28+</td>
       <td>8.0.26+</td>
+      <td></td>
+      <td></td>
     </tr>
   </tbody>  
   <tbody>
@@ -47,14 +53,18 @@ wmi-manual 是一份用于互联网微服务中间件安装部署的手册，涉
       <td>2.0.3</td>
       <td>2.1.0</td>
       <td>2.2.0</td>
+      <td></td>
+      <td></td>
     </tr>
   </tbody>  
   <tbody>
     <tr>
       <td>RabbitMQ</td>
-	  <td>3.6.10</td>
-      <td>3.8.30</td>
+	  <td>3.8.30</td>
+      <td>3.10.30</td>
       <td>3.11.8</td>
+      <td></td>
+      <td></td>
     </tr>
   </tbody>    
   <tbody>
@@ -244,5 +254,5 @@ ssh-copy-id $IP
 
 ### 4.下载安装包
 
-安装包已放在网盘，请提前将安装包从云盘下载至部署节点，也可以自行去官方网站下载不同版本
+安装包已放在网盘，请提前将安装包从云盘下载至部署节点 [软件包下载](https://pan.baidu.com/s/1iW86DlOrECdycPFi8-G8YQ?pwd=cs1c)，也可以自行去官方网站下载不同版本
 

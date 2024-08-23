@@ -298,5 +298,5 @@ if [ "$deploy_mode" = "cluster" ]; then
     fi
   done
 else
-  bash client.sh
+  bash ${WORKDIR}/client.sh
 fi
