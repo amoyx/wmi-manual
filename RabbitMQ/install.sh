@@ -54,8 +54,8 @@ check_os() {
 	   msg="【INFO】当前OS为Ubuntu, 版本：$OSVERSION"
 	   ;;
     *)
-       msg="【INFO】未识别到你的操作系统类型 $OSRELEASE!, 版本为$OSVERSION"
-       ;;
+     msg="【INFO】未识别到你的操作系统类型 $OSRELEASE!, 版本为$OSVERSION"
+     ;;
   esac
   print_message $msg
 }
@@ -70,11 +70,11 @@ install_depend() {
 	  ;;
 	"debian" | "ubuntu")
 	  apt-get update
-      apt-get install tar wget unzip zip git automake autoconf -y
+    apt-get install tar wget unzip zip git automake autoconf -y
 	  ;;
 	*)
 	  print_message "【WARN】未知的操作系统类型,请自行安装git,automake,autoconf工具!"
-      ;;
+    ;;
   esac
   
   if [ $? -ne 0 ]; then
@@ -264,7 +264,7 @@ deploy(){
 	  yes | cp $WORKDIR/rabbitmq-server.service /etc/systemd/system/rabbitmq-server.service
 	  
 	  systemctl daemon-reload
-      systemctl start rabbitmq-server
+    systemctl start rabbitmq-server
 	fi
 }
 

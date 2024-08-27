@@ -40,11 +40,11 @@ wmi-manual 是一份用于互联网微服务中间件安装部署的手册，涉
   <tbody>
     <tr>
       <td>Redis</td>
-      <td>Redis 3.2</td>
       <td>Redis 4.0</td>
       <td>Redis 5.0</td>
-	  <td>Redis 6.2</td>
-	  <td>Redis 7.0</td>	  
+      <td>Redis 6.2</td>
+	  <td>Redis 7.0</td>
+	  <td></td>	  
     </tr>
   </tbody> 
   <tbody>
