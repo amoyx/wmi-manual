@@ -193,72 +193,78 @@ EOF
 deploy(){
 	if [ "$deploy_mode" = "cluster" ]; then
 	  rabbitmq_cluster
+	  node_num=$(echo $iplist|awk -F' ' '{print NF}')
+    if [ $node_num -lt 3 ]; then
+       print_message "【ERROR】rabbitmq集群模式至少3个节点，程序退出！"
+       exit 1
+    fi
+
 	  master_node=$(echo $iplist|awk -F' ' '{print $1}')
 	  for ipaddr in ${iplist}; do
-		ssh $sshuser@$ipaddr "mkdir -p $WORKDIR"
-		ssh $sshuser@$ipaddr 'mkdir -p /var/lib/rabbitmq'
-		ssh $sshuser@$ipaddr 'yum install tar -y'
-		scp $rabbitmq_path $sshuser@$ipaddr:$rabbitmq_path
-		scp $erlang_path $sshuser@$ipaddr:$erlang_path
-		scp $WORKDIR/hosts $sshuser@$ipaddr:/etc/hosts
+      ssh $sshuser@$ipaddr "mkdir -p $WORKDIR"
+      ssh $sshuser@$ipaddr 'mkdir -p /var/lib/rabbitmq'
+      ssh $sshuser@$ipaddr 'yum install tar -y'
+      scp $rabbitmq_path $sshuser@$ipaddr:$rabbitmq_path
+      scp $erlang_path $sshuser@$ipaddr:$erlang_path
+      scp $WORKDIR/hosts $sshuser@$ipaddr:/etc/hosts
 	    scp $WORKDIR/rabbitmq-server.service $sshuser@$ipaddr:/etc/systemd/system/rabbitmq-server.service
 		
-		ssh $sshuser@$ipaddr "yum localinstall $erlang_path -y"
-		if [ $? -ne 0 ]; then
-		  print_message "【ERROR】$erlang_path在${ipaddr}节点安装失败，程序退出！"	
-		  exit 1
-		fi
+      ssh $sshuser@$ipaddr "yum localinstall $erlang_path -y"
+      if [ $? -ne 0 ]; then
+        print_message "【ERROR】$erlang_path在${ipaddr}节点安装失败，程序退出！"
+        exit 1
+      fi
 		
-		ssh $sshuser@$ipaddr "tar -Jxf $rabbitmq_path -C $WORKDIR --overwrite"
-		if [ $? -ne 0 ]; then
-		  print_message "【ERROR】$rabbitmq_path在${ipaddr}节点安装错误，程序退出！"
-		  exit 1
-		fi
+      ssh $sshuser@$ipaddr "tar -Jxf $rabbitmq_path -C $WORKDIR --overwrite"
+      if [ $? -ne 0 ]; then
+        print_message "【ERROR】$rabbitmq_path在${ipaddr}节点安装错误，程序退出！"
+        exit 1
+      fi
 		
-		ssh $sshuser@$ipaddr 'systemctl daemon-reload'
-		ssh $sshuser@$ipaddr 'systemctl start rabbitmq-server'
-		ssh $sshuser@$ipaddr 'systemctl enable rabbitmq-server'
+      ssh $sshuser@$ipaddr 'systemctl daemon-reload'
+      ssh $sshuser@$ipaddr 'systemctl start rabbitmq-server'
+      ssh $sshuser@$ipaddr 'systemctl enable rabbitmq-server'
 	  done
 	  
 	  scp $sshuser@$master_node:~/.erlang.cookie ${WORKDIR}/rabbitmq_cookie
 	  
 	  if [ $? -ne 0 ]; then
-		print_message "【ERROR】获取$master_node节点cookie错误，程序退出！"
-		exit 1
+      print_message "【ERROR】获取$master_node节点cookie错误，程序退出！"
+      exit 1
 	  fi	  
 
 	  rabbitmq_bin=${WORKDIR}/rabbitmq_server-${rabbitmq_version}/sbin
 	  
 	  for ipaddr in ${iplist};do
 	    if [ "$ipaddr" = "$master_node" ]; then
-		   continue
-		fi
+		    continue
+		  fi
 		
-		scp ${WORKDIR}/rabbitmq_cookie $sshuser@$ipaddr:~/.erlang.cookie
-		ssh $sshuser@$ipaddr "chmod 400 ~/.erlang.cookie"
-		ssh $sshuser@$ipaddr "${rabbitmq_bin}/rabbitmqctl stop_app"
-		ssh $sshuser@$ipaddr "${rabbitmq_bin}/rabbitmqctl reset"
-		ssh $sshuser@$ipaddr "${rabbitmq_bin}/rabbitmqctl join_cluster rabbit@rabbitmq1"
-		ssh $sshuser@$ipaddr "${rabbitmq_bin}/rabbitmqctl start_app"
+      scp ${WORKDIR}/rabbitmq_cookie $sshuser@$ipaddr:~/.erlang.cookie
+      ssh $sshuser@$ipaddr "chmod 400 ~/.erlang.cookie"
+      ssh $sshuser@$ipaddr "${rabbitmq_bin}/rabbitmqctl stop_app"
+      ssh $sshuser@$ipaddr "${rabbitmq_bin}/rabbitmqctl reset"
+      ssh $sshuser@$ipaddr "${rabbitmq_bin}/rabbitmqctl join_cluster rabbit@rabbitmq1"
+      ssh $sshuser@$ipaddr "${rabbitmq_bin}/rabbitmqctl start_app"
 		
-		if [ $? -ne 0 ]; then
-		  print_message "【ERROR】${ipaddr}节点加入集群失败，程序退出！"
-		  exit 1
-		fi
+      if [ $? -ne 0 ]; then
+        print_message "【ERROR】${ipaddr}节点加入集群失败，程序退出！"
+        exit 1
+      fi
 	  done
 	  
 	  ssh $sshuser@$master_node "${rabbitmq_bin}/rabbitmqctl cluster_status"
 	else
 	  yum localinstall $erlang_path -y
 	  if [ $? -ne 0 ]; then
-		print_message "【ERROR】$erlang_path安装失败，程序退出！"	
-		exit 1
+      print_message "【ERROR】$erlang_path安装失败，程序退出！"
+      exit 1
 	  fi
 	  
 	  tar -Jxf $rabbitmq_path -C $WORKDIR --overwrite
 	  if [ $? -ne 0 ]; then
-		print_message "【ERROR】$rabbitmq_path安装失败，程序退出！"
-		exit 1
+      print_message "【ERROR】$rabbitmq_path安装失败，程序退出！"
+      exit 1
 	  fi
 	  
 	  yes | cp $WORKDIR/rabbitmq-server.service /etc/systemd/system/rabbitmq-server.service

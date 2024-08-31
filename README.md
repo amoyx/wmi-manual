@@ -74,6 +74,7 @@ wmi-manual 是一份用于互联网微服务中间件安装部署的手册，涉
       <td>gitlab-ce-12.x</td>
       <td>gitlab-ce-14.x</td>
 	  <td>gitlab-ce-16.x</td>
+      <td></td>
     </tr>
   </tbody>  
   <tbody>
@@ -93,6 +94,7 @@ wmi-manual 是一份用于互联网微服务中间件安装部署的手册，涉
       <td>7.10.1</td>
 	  <td>7.14.2</td>
 	  <td>8.13.3</td>
+      <td></td>
     </tr>
   </tbody>
   <tbody>

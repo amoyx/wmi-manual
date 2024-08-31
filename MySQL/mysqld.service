@@ -1,0 +1,17 @@
+[Unit]
+Description=MySQL Server
+After=network.target
+After=syslog.target
+
+[Service]
+User=mysql
+Group=mysql
+Type=forking
+PIDFile=/data/mysql5_7/data/mysqld.pid
+TimeoutSec=0
+ExecStart=/opt/mysql/bin/mysqld --daemonize --pid-file=/data/mysql5_7/data/mysqld.pid
+LimitNOFILE = 5000
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

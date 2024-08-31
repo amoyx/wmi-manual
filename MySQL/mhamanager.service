@@ -1,0 +1,10 @@
+[Unit]
+Description=This is MySQL High Availability Manager
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/masterha_manager --conf=/data/masterha/app.cnf --remove_dead_master_conf --ignore_last_failover < /dev/null > /data/masterha/manager.log 2>&1
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,33 @@
+[server default]
+log_level=info
+manager_workdir=/data/masterha
+manager_log=/data/masterha/app.log
+master_binlog_dir=/data/mysql5_7/binlog
+master_ip_failover_script=/usr/local/bin/master_ip_failover
+master_ip_online_change_script=/usr/local/bin/master_ip_online_change
+ping_interval=1
+remote_workdir=/tmp
+secondary_check_script=/usr/local/bin/masterha_secondary_check  -s 192.168.100.13  192.168.100.12
+shutdown_script=""
+ssh_user=root
+ssh_port=22
+repl_user=repl       // mysql同步用户
+repl_password="Asdf@1234"  // mysql同步密码
+user=mha        // mha用户
+password="Zxcv.1234" // mha用户密码
+
+[server1]
+hostname=192.168.100.12
+port=3306
+candidate_master=1
+
+[server2]
+candidate_master=1
+check_repl_delay=0
+hostname=192.168.100.13
+port=3306
+
+[server3]
+hostname=192.168.100.14
+port=3306
+no_master=1

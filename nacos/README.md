@@ -1,5 +1,5 @@
 # Nacos集群模式
-本部署手册是帮助你快速在你的电脑上，下载安装并使用Nacos，部署生产使用的集群模式. [Nacos官方文档](https://nacos.io/docs/latest/what-is-nacos/)
+本部署手册是帮助你快速在你的电脑上，[下载](https://nacos.io/download/release-history/)安装并使用Nacos，部署生产使用的集群模式. [Nacos官方文档](https://nacos.io/docs/latest/what-is-nacos/)
 
 ## 集群部署架构图
 无论采用何种部署方式，推荐用户把Nacos集群中所有服务节点放到一个vip下面，然后挂到一个域名下面。
