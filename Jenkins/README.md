@@ -119,15 +119,15 @@ http://<your-server-ip>:8080
 # 需要配置 主机名，端口，java 路径，密钥等信息
 ```
 
-## 二、脚本安装
+## 四、脚本安装
 本文提供了shell脚本一键安装，先下载脚本install.sh，然后执行脚本，脚本会自动安装Jenkins.
 
-### 2.1 脚本执行注意事项
+### 4.1 脚本执行注意事项
 * 需要root用户执行脚本，执行过程中会创建jenkins用户，避免权限不足执行失败.
 * 请确保已配置软件源，能正常安装 fontconfig，curl，tar包即可.
 * 脚本执行过程中，会安装jdk17，下载jenkins.war包，安装时间有点长，请耐心等待.
 
-### 2.2 脚本中变量说明
+### 4.2 脚本中变量说明
 Jenkins <b>[版本](https://get.jenkins.io/war-stable/)</b> 查看
 ```
 jenkins_version="12.10.0"                  # 必填，jenkins安装版本，如 2.462.1 2.452.2 2.401.2等；
@@ -135,7 +135,7 @@ jenkins_home="/var/lib/jenkins"            # 必填，jenkins安装和数据存�
 http_port="8080"                           # 必填，jenkins服务监听端口
 ```
 
-### 2.3 脚本执行
+### 4.3 脚本执行
 + 1）下载install.sh脚本，最好是下载到一个单独的目录中，执行过程中会生成一些临时文件，以便执行完毕后清理.
 + 2）修改install.sh脚本中变量的值，根据你自己的实际场景修改配置
 + 3）给脚本执行权限 chmod +x install.sh，执行脚本 bash install.sh
