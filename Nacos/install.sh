@@ -46,6 +46,9 @@ function check_os() {
 	"ubuntu")
 	   msg="【INFO】当前OS为Ubuntu, 版本：$OSVERSION"
 	   ;;
+	"tencentos")
+	   msg="【INFO】当前OS为TencentOS, 版本：$OSVERSION"
+	   ;;
     *)
        msg="【INFO】未识别到你的操作系统类型 $OSRELEASE!, 版本为$OSVERSION"
        ;;
@@ -64,7 +67,7 @@ function check_package_install(){
     return 1
   fi
   case $OSRELEASE in
-    "centos" | "rhel" | "fedora")
+    "centos" | "rhel" | "fedora" | "tencentos")
 	  packages=$(rpm -qa)
 	  ;;
 	"debian" | "ubuntu")
@@ -94,7 +97,7 @@ function install_depend(){
   status=$?
   if [ $status -eq 1 ]; then
     case $OSRELEASE in
-      "centos" | "rhel" | "fedora")
+      "centos" | "rhel" | "fedora" | "tencentos")
 	    yum clean all
         yum makecache
         yum install wget unzip zip tar -y
