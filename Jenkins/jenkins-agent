@@ -1,0 +1,13 @@
+[Unit]
+Description=Jenkins Agent
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/data/jenkins
+ExecStart=java -jar /data/jenkins/agent.jar -url http://<your-jenkins-server>:8080/ -secret secretkey -name "jenkins_node" -workDir "/data/jenkins"
+Restart=always
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
