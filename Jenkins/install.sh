@@ -60,7 +60,7 @@ add_user(){
 
 install_jdk() {
   print_message "【INFO】正在安装JDK，请稍等..."
-  jdk_url="http://122.9.187.196:21666/jdk/jdk-17_linux-x64_bin.tar.gz"
+  jdk_url="https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz"
   filepath="$WORKDIR/jdk-17_linux-x64_bin.tar.gz"
   curl -o $filepath $jdk_url
   tar -zxf $filepath -C $WORKDIR --overwrite
@@ -108,7 +108,7 @@ Group=jenkins
 Environment="JENKINS_HOME=$jenkins_home"
 WorkingDirectory=$jenkins_home
 Environment="JENKINS_WAR=$jenkins_home/jenkins.war"
-Environment="JENKINS_WEBROOT=%C/jenkins/war"
+Environment="JENKINS_WEBROOT=$jenkins_home/war"
 Environment="JENKINS_LOG=$jenkins_home/jenkins_output.log"
 Environment="JAVA_HOME=$WORKDIR/jdk-17.0.12"
 Environment="JENKINS_JAVA_CMD=$WORKDIR/jdk-17.0.12/bin/java"
@@ -136,7 +136,7 @@ run(){
     print_message "【ERROR】jenkins服务启动失败，程序退出！"
     exit 1
   else
-    passwd=$(cat /opt/wmi/jenkins/secrets/initialAdminPassword)
+    passwd=$(cat $jenkins_home/secrets/initialAdminPassword)
     print_message "【INFO】jenkins服务启动成功！初始密码：$passwd"
   fi
 }
