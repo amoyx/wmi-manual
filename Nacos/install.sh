@@ -2,7 +2,7 @@
 iplist="192.168.100.11 192.168.100.12 192.168.100.13"
 sshuser="root"
 sshpasswd="password"
-jdk_path="https://developer-public-1256405155.cos.ap-shanghai.myqcloud.com/jdk-8u421-linux-x64.tar.gz"
+jdk_path="https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz"
 nacos_path="https://developer-public-1256405155.cos.ap-shanghai.myqcloud.com/nacos-server-2.3.0.zip"
 dt=$(date +%y%m%d)
 WORKDIR="/opt/wmi$dt"
@@ -255,8 +255,8 @@ function copy_ssh_key() {
   done
 }
 
-# env_prep 环境准备
-function env_prep(){
+# run 开始执行
+function run(){
   if [ ! -d ${WORKDIR} ]; then
     mkdir -p ${WORKDIR}
   fi
@@ -281,23 +281,23 @@ function env_prep(){
   sed -i "2a OSRELEASE=${OSRELEASE}" $client
 }
 
-env_prep
+run
 
 if [ "$deploy_mode" = "cluster" ]; then
   for ipaddr in ${iplist}; do
     ssh $sshuser@$ipaddr "mkdir -p $WORKDIR"
     scp $jdk_path $sshuser@$ipaddr:$jdk_path
-	scp $nacos_path $sshuser@$ipaddr:$nacos_path
+	  scp $nacos_path $sshuser@$ipaddr:$nacos_path
     scp $WORKDIR/application.properties  $sshuser@$ipaddr:$WORKDIR/application.properties
-	scp $WORKDIR/cluster.conf $sshuser@$ipaddr:$WORKDIR/cluster.conf
-	scp $WORKDIR/nacos.service $sshuser@$ipaddr:$WORKDIR/nacos.service
-	scp $WORKDIR/client.sh $sshuser@$ipaddr:$WORKDIR/client.sh
-	ssh $sshuser@$ipaddr "bash $WORKDIR/client.sh"
-	if [ $? -ne 0 ]; then
-	  msg="【ERROR】复制文件到${ipaddr}节点错误，程序退出！"
-	  echo $msg
-      echo $msg >> $LOGPATH	
-	  exit 1
+	  scp $WORKDIR/cluster.conf $sshuser@$ipaddr:$WORKDIR/cluster.conf
+	  scp $WORKDIR/nacos.service $sshuser@$ipaddr:$WORKDIR/nacos.service
+	  scp $WORKDIR/client.sh $sshuser@$ipaddr:$WORKDIR/client.sh
+	  ssh $sshuser@$ipaddr "bash $WORKDIR/client.sh"
+    if [ $? -ne 0 ]; then
+      msg="【ERROR】复制文件到${ipaddr}节点错误，程序退出！"
+      echo $msg
+        echo $msg >> $LOGPATH
+      exit 1
     fi
   done
 else

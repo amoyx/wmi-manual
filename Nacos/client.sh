@@ -11,7 +11,7 @@ function check_package_install(){
     return 1
   fi
   case $OSRELEASE in
-    "centos" | "rhel" | "fedora")
+    "centos" | "rhel" | "fedora" | "tencentos")
 	  packages=$(rpm -qa)
 	  ;;
 	"debian" | "ubuntu")
@@ -41,7 +41,7 @@ function install_depend(){
   status=$?
   if [ $status -eq 1 ]; then
     case $OSRELEASE in
-      "centos" | "rhel" | "fedora")
+      "centos" | "rhel" | "fedora" | "tencentos")
 	    yum clean all
         yum makecache
         yum install wget unzip zip tar -y
